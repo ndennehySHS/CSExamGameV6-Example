@@ -1,0 +1,23 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #170;
+    color: #fff;
+    font-family: 'Press Start 2P', cursive;
+    margin: 0;
+}
+
+.game-container {
+    text-align: center;
+}
+
+.school-logo {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+#gameCanvas {
+    margin-top: 20px;
+}
