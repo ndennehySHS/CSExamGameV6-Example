@@ -9,19 +9,37 @@ let portal;
 // Set API_BASE to the absolute URL if needed, or leave as an empty string for relative paths.
 const API_BASE = ''; 
 
+let carTexs = [] //car textures
+let portalTex;
+let mapTex;
+let logTex;
+
+function preload(){
+  carTexs = [
+    loadImage('assets/car1.png'),
+    loadImage('assets/car2.png'),
+    loadImage('assets/car3.png'),
+    loadImage('assets/car4.png')
+  ]
+  portalTex = loadImage('assets/Portal.png')
+  mapTex = loadImage('assets/map.png')
+  logTex = loadImage('assets/log.png')
+}
+
 function setup() {
   let canvas = createCanvas(800, 600);
   canvas.parent('gameCanvas');
   frog = new Frog();
   portal = new Portal(random(width - 40), random(40, 200));
   for (let i = 0; i < 5; i++) {
-    cars.push(new Car(i * 160 + 80, 300));
+    cars.push(new Car(i * 160 + 80, 320));
     logs.push(new Log(i * 160 + 80, 100));
   }
 }
 
 function draw() {
   background(173, 216, 230);
+  image(mapTex,0,0,800,600)
   displayScore();
   portal.show();
   frog.show();
@@ -162,16 +180,25 @@ class Car {
     this.y = y;
     this.r = 40;
     this.xdir = 1;
+    let randomTex = Math.round(Math.random()*3)
+    this.tex = carTexs[randomTex]
   }
 
   show() {
-    fill(255, 0, 0);
-    rect(this.x, this.y, 80, 40);
+    if (this.xdir > 0) {
+        push();
+        translate(this.x + 50, this.y + 25); 
+        rotate(PI); 
+        image(this.tex, -50, -25, 100, 50); 
+        pop();
+    } else {
+        image(this.tex, this.x, this.y+150, 100, 50);
+    }
   }
 
   move() {
     this.x += this.xdir * 2;
-    if (this.x > width || this.x < 0) {
+    if (this.x > width || this.x < -100) {
       this.xdir *= -1;
     }
   }
@@ -192,12 +219,17 @@ class Log {
 
   show() {
     fill(139, 69, 19);
-    rect(this.x, this.y, 80, 40);
+    if(this.xdir < 0){
+      image(logTex,this.x, this.y-60, 80, 50)
+    }else{
+      image(logTex,this.x, this.y, 80, 50)
+
+    }
   }
 
   move() {
     this.x += this.xdir * 2;
-    if (this.x > width || this.x < 0) {
+    if (this.x > width || this.x < -80) {
       this.xdir *= -1;
     }
   }
@@ -217,7 +249,7 @@ class Portal {
 
   show() {
     fill(128, 0, 128);
-    rect(this.x, this.y, 40, 40);
+    image(portalTex, this.x, this.y, 50, 50);
   }
 
   hits(frog) {
