@@ -179,7 +179,7 @@ class Car {
     this.x = x;
     this.y = y;
     this.r = 40;
-    this.xdir = 1;
+    this.xdir = 1.5;
     let randomTex = Math.round(Math.random()*3)
     this.tex = carTexs[randomTex]
   }
@@ -204,8 +204,14 @@ class Car {
   }
 
   hits(frog) {
-    let d = dist(this.x + 40, this.y + 20, frog.x + 20, frog.y + 20);
-    return d < 40;
+    if (this.xdir > 0){
+      let d = dist(this.x + 40, this.y + 20, frog.x + 20, frog.y + 20);
+      return d < 40;
+    }else{
+      let d = dist(this.x + 40, this.y + 20 + 150, frog.x + 20, frog.y + 20);
+      return d < 40;
+    }
+    
   }
 }
 
@@ -235,8 +241,13 @@ class Log {
   }
 
   hits(frog) {
-    let d = dist(this.x + 40, this.y + 20, frog.x + 20, frog.y + 20);
-    return d < 40;
+    if (this.xdir > 0){
+      let d = dist(this.x + 40, this.y + 20, frog.x + 20, frog.y + 20);
+      return d < 40;
+    }else{
+      let d = dist(this.x + 40, this.y + 20 - 60, frog.x + 20, frog.y + 20);
+      return d < 40;
+    }
   }
 }
 
